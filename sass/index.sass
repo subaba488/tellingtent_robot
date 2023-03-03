@@ -1,0 +1,449 @@
+@import _variable
+
+
+$font_size: 14px
+$width: 59px
+$height: 36px
+$bg: #9b1300
+$bg_hover: lighten($bg, 5%)
+$txt_color: white
+$bg_shadow: rgba(0,0,0,0.4)
+
+@mixin middle($width, $height)
+    position: absolute
+    top: 16%
+    left: 44%
+    width: $width
+    height: $height
+    margin-top: (-$height)/2
+    margin-left: (-$width)/2
+    z-index: 9999
+    transform: rotate(6deg)
+
+$slider-name: typing-slider
+$slides: 4
+$typing-duration: 4s
+$tab-letters: 10 9 8 5
+$slider-font-size: 1.5rem
+$background: $blue
+
+@keyframes cursor
+    from, to
+        border-color: $blue
+
+    50%
+        border-color: white
+
+@keyframes typing
+    from
+        width: 100%
+    90%, to
+        width: 0
+
+@keyframes slide
+    #{100% / $slides}
+        font-size: $slider-font-size
+        letter-spacing: 1px
+    
+    to
+        font-size: 0
+        letter-spacing: 0
+
+.#{$slider-name}
+    font-family: Consolas, monospace
+    font-weight: bold
+    text-align: center
+    white-space: nowrap
+    margin-bottom: 120px
+
+.#{$slider-name}
+    p
+        position: relative
+        display: inline
+        font-size: 0
+        text-transform: uppercase
+        letter-spacing: 0
+        animation: slide $typing-duration * $slides step-start 
+
+.#{$slider-name}
+    p
+        &:after
+            content: ""
+            position: absolute
+            top: 0
+            right: 0
+            bottom: 0
+            border-left: 3px solid white
+            background-color: $background
+            animation: typing $typing-duration , cursor 1s 
+
+@each $letters in $tab-letters
+    $i: index($tab-letters, $letters)
+    .#{$slider-name} p:nth-child(#{$i})
+        animation-delay:  $typing-duration * ($i - 1)
+        &:after
+            animation-delay: $typing-duration * ($i - 1)
+            animation-timing-function: steps(#{$letters}), step-end
+
+.intro
+    position: fixed
+    width: 100vw
+    height: 100vh
+    background: $blue
+    top: 0
+    z-index: 9999
+    display: flex
+    justify-content: center
+    align-items: center
+    opacity: 1
+    color: white
+    flex-direction: column
+
+    &-skip
+        &-bg
+            width: 180px
+            position: absolute
+            bottom: 10%
+
+            img
+                width: 100%
+        &-button
+            font-size: $font_size
+            text-align: center
+            line-height: $height
+            text-decoration: none
+            color: $txt_color
+            background-color: $bg
+            border-radius: 16px 10px 10px 7px
+            @include middle($width, $height)
+            box-shadow: unset //0 4px 0 darken($bg, 7%), 0 5px 5px 1px $bg_shadow
+            transition: all .15s ease-in-out
+            cursor: pointer
+    
+    
+    &:hover
+        text-shadow: 0 -1px -1px darken($bg_hover, 7%)
+        box-shadow: 0 4px 0 darken($bg_hover, 7%), 0 5px 5px 1px $bg_shadow
+    
+    &:active
+        box-shadow: none
+
+    &.show
+        opacity: 1
+
+
+
+.top
+    position: relative
+    background-image: url(../images/index/hero.jpg)
+    background-size: cover
+    background-position: center
+    width: 100%
+    height: 100vh
+    position: relative
+
+    &:before
+        content: ""
+        position: absolute
+        bottom: 0
+        left: 0
+        background-image: url(../images/feature_top.png)
+        width: 100%
+        height: 39px
+        -webkit-animation: 30s wave02 linear 
+        animation: 30s wave02 linear 
+    
+    &-boom
+        left: 52%
+        width: 12%
+        max-width: 390px
+        min-width: 280px
+        position: absolute
+        top: 50.29%
+        transform: translate(-50%, -50%) scale(0)
+        opacity: 0
+        transition: all .5s
+        transition-delay: 1s
+
+        &.show
+            opacity: 1
+            transform: translate(-50%, -50%) scale(1.5)
+
+        img
+            width: 100%
+    
+    &-ano
+        width: 280px
+        position: absolute
+        top: 34%
+        left: 48%
+        transition: all 1s
+        opacity: 0
+        transition-delay: 1.2s
+        transform: translateX(-50%)
+
+        img
+            width: 100%
+        
+        &.show
+            opacity: 1
+            top: 36%
+            left: 0%
+    
+    &-smoke
+        width: 50%
+        height: 50%
+        position: absolute
+        top: 27%
+        left: 2.5%
+        transition: background 1s, opacity 3s
+        opacity: 0
+        background-image: url(../images/index/smoke.png)
+        background-size: auto
+        background-repeat: no-repeat
+        background-position-x: -209%
+        transition-delay: 1.2s
+
+        &.active
+            background-position-x: 0
+            opacity: 1
+
+.index
+    background: $sky-l
+    padding: 5% 0
+    position: relative
+    margin-bottom: 20px
+
+    &-news
+        max-width: 1400px
+        padding: 36px 20px
+        margin: 0 auto
+
+        &-wrap
+            display: flex
+            align-items: center
+            position: relative
+        
+        &-title
+            font-size: 2.5rem
+            margin-bottom: 1rem
+            font-family: $font-sp
+            color: $blue
+        
+        &-story
+            width: 37%
+            margin: 0 auto
+            line-height: 2
+            text-align: center
+            position: relative
+        
+        &-pic
+            position: absolute
+
+            &.doctor
+                width: 280px
+                left: 0
+                top: 0
+                transform: translate(0%, 0) rotate(330deg)
+                opacity: 0
+                transition: all .3s
+
+                &.show
+                    opacity: 1
+                    transform: translate(0%, -50%) rotate(330deg)
+            
+            &.doctor-mobile
+                display: none
+            
+            &.ano
+                width: 280px
+                bottom: 10px
+                left: 54px
+                transform: translate(0, 100%) rotate(45deg)
+                transform-origin: top center
+                z-index: 1
+                opacity: 0
+                transition: all 1s
+                transition-delay: .5s
+
+                &.show
+                    opacity: 1
+                    transform: translate(0, 100%) rotate(0deg)
+            
+            &.ano-mobile
+                display: none
+                    
+                    
+
+            img 
+                width: 100%
+        
+        &-btn 
+            width: 225px
+            height: 40px
+            line-height: 40px
+            position: relative
+            text-align: center
+            z-index: 1
+            background: $blue
+            margin: 36px auto 0
+            border-radius: 15px
+            color: white
+            cursor: pointer
+
+            &:after
+                content: ""
+                position: absolute
+                top: 50%
+                right: 20px
+                -webkit-transform: translateY(-50%)
+                -ms-transform: translateY(-50%)
+                transform: translateY(-50%)
+                background-image: url(../images/btn_arrow_w.png)
+                background-repeat: no-repeat
+                width: 7px
+                height: 12px
+                -webkit-animation: bounceAlpha 1.4s  linear infinite
+                animation: bounceAlpha 1.4s  linear infinite
+            
+        
+        &-swiper
+            width: 63%
+            position: relative
+            height: 530px
+            margin: 0 auto
+
+            .swiper
+                width: 100%
+                height: 530px
+
+                image
+                    display: block
+                    width: 100%
+                    object-fit: cover
+                    transform: translateX(25px)
+
+                &-button
+                    &-prev, &-next
+                        &:after
+                            content: ''   
+
+.f1
+    transform: scale(0.97) translate(5px, 5px)
+
+.f2
+    fill: #e8e16f
+    transform: scale(0.7) translate(440px, 219px)
+
+.f3
+    fill: #c0c0bf
+    transform: scale(0.8) translate(48px, 0px)
+
+@media screen and (max-width: 1440px)
+    .index
+        &-news
+            &-wrap
+                align-items: unset
+            
+            &-pic
+                &.doctor
+                    width: 210px
+                
+                &.ano
+                    width: 210px
+                    transform: translate(0, 70%) rotate(45deg)
+                    left: 80px
+
+                    &.show
+                        transform: translate(0, 70%) rotate(0deg)
+
+@media screen and (max-width: 1200px)
+
+    .top
+        
+        &-boom
+            &.show
+                transform: translate(-50%, -50%) scale(1)
+        
+        &-ano
+            position: absolute
+            top: 50%
+            left: 50%
+
+            &.show
+                transform: translate(-50%, -50%) scale(3)
+                top: 50%
+                left: 50%
+        
+        &-smoke
+            display: none
+
+    .index
+        &-news
+            &-wrap
+                flex-direction: column-reverse
+            
+            &-story
+                margin-bottom: 5rem
+                width: 100%
+            
+            &-swiper
+                width: 100%
+                height: unset
+
+                .swiper
+                    height: unset
+            
+            &-pic
+                &.doctor
+                    display: none
+                
+                &.doctor-mobile
+                    display: block
+                    width: 25%
+                    right: 5%
+                    top: 0
+                    transform: translateY(-35%) rotate(10deg)
+                    opacity: 0
+                    transition: all 1s
+                    transition-delay: .5s
+
+                    &.show
+                        transform: translateY(-70%) rotate(10deg)
+                        opacity: 1
+
+                    img
+                        width: 100%
+                
+                &.ano
+                    display: none
+                
+                &.ano-mobile
+                    display: block
+                    width: 25%
+                    left: 5%
+                    top: 0
+                    transform: translateY(-50%) rotate(-10deg)
+                    opacity: 0
+                    transition: all 1s
+
+                    &.show
+                        transform: translateY(-75%) rotate(-10deg)
+                        opacity: 1
+
+                    img
+                        width: 100%
+
+@media screen and (max-width: 576px)
+    .index
+        &-news
+            &-story
+                margin-bottom: 63vw
+
+            &-pic
+                &.doctor-mobile, &.ano-mobile
+                    width: 50%
+
+                
+
+
